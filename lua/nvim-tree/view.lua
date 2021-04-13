@@ -164,6 +164,7 @@ function M._prevent_buffer_override()
     end
     vim.cmd("buffer "..curbuf)
   end)
+  -- vim.cmd "au BufEnter * ++nested lua require'nvim-tree'.open_on_directory()"
 end
 
 function M.win_open(opts)
@@ -249,6 +250,11 @@ end
 
 function M.get_winnr()
   return M.View.tabpages[a.nvim_get_current_tabpage()]
+end
+
+function M.reset()
+  M.close()
+  M.open()
 end
 
 return M
