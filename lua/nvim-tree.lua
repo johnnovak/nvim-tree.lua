@@ -186,17 +186,16 @@ function M.open_on_directory()
   local buf = api.nvim_get_current_buf()
   local bufname = api.nvim_buf_get_name(buf)
   if vim.fn.isdirectory(bufname) == 1 then
-    lib.change_dir(bufname)
-    if view.win_open() then
-      view.close()
+    if not view.win_open() then
+      view.open()
     end
-    view.open()
-    return true
+    lib.change_dir(bufname)
+    lib.refresh_tree()
+    view.focus()
   end
 end
 
 function M.buf_enter()
-  if M.open_on_directory() then return end
   update_root_dir()
   if vim.g.nvim_tree_follow == 1 then
     M.find_file(false)

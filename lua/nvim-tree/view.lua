@@ -153,7 +153,10 @@ function M._prevent_buffer_override()
   vim.schedule(function()
     local curwin = a.nvim_get_current_win()
     local curbuf = a.nvim_win_get_buf(curwin)
-    if curwin ~= M.get_winnr() or curbuf == M.View.bufnr then return end
+    if curwin ~= M.get_winnr() or curbuf == M.View.bufnr then
+      require'nvim-tree'.open_on_directory()
+      return
+    end
 
     vim.cmd("buffer "..M.View.bufnr)
 
@@ -163,8 +166,8 @@ function M._prevent_buffer_override()
       vim.cmd("wincmd "..goto_tbl[M.View.side])
     end
     vim.cmd("buffer "..curbuf)
+    require'nvim-tree'.open_on_directory()
   end)
-  -- vim.cmd "au BufEnter * ++nested lua require'nvim-tree'.open_on_directory()"
 end
 
 function M.win_open(opts)
